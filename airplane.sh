@@ -6,8 +6,18 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
-# Pergunta ao usuário o intervalo entre ciclos
-read -p "Informe o tempo em segundos entre cada troca (excluindo os 2s do modo avião ativo): " INTERVALO
+# Usa argumento ou pergunta
+if [ -n "$1" ]; then
+  INTERVALO="$1"
+else
+  read -p "Informe o tempo em segundos entre cada troca (excluindo os 2s do modo avião ativo): " INTERVALO
+fi
+
+# Verifica se é número positivo
+if ! [[ "$INTERVALO" =~ ^[0-9]+$ ]] || [ "$INTERVALO" -le 0 ]; then
+  echo "Valor inválido: informe um número inteiro positivo."
+  exit 1
+fi
 
 echo "Iniciando o ciclo de ativação/desativação do modo avião a cada $INTERVALO segundos..."
 
