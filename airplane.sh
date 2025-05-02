@@ -1,25 +1,14 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Verifica se o script está sendo executado com root
+# Verifica se está com root
 if [ "$(id -u)" -ne 0 ]; then
   echo "Este script requer permissões de root (su)."
   exit 1
 fi
 
-# Usa argumento ou pergunta
-if [ -n "$1" ]; then
-  INTERVALO="$1"
-else
-  read -p "Informe o tempo em segundos entre cada troca (excluindo os 2s do modo avião ativo): " INTERVALO
-fi
+INTERVALO=50
 
-# Verifica se é número positivo
-if ! [[ "$INTERVALO" =~ ^[0-9]+$ ]] || [ "$INTERVALO" -le 0 ]; then
-  echo "Valor inválido: informe um número inteiro positivo."
-  exit 1
-fi
-
-echo "Iniciando o ciclo de ativação/desativação do modo avião a cada $INTERVALO segundos..."
+echo "Modo avião automático iniciado. Intervalo fixo de $INTERVALO segundos..."
 
 while true; do
   echo "Ativando modo avião..."
